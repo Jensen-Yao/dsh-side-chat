@@ -1,0 +1,9 @@
+node_modules/
+output/
+*.tgz
+*.log
+.playwright-cli/
+.env
+.env.*
+!.env.example
+.DS_Store

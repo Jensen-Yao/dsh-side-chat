@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f9f7">
+    <meta name="description" content="在 DeepSeek Harness 右侧栏开启独立会话。保留主线，随时追问、整理思路，或从主对话分支继续。">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="DSH Side Chat">
+    <meta property="og:description" content="主线不停，灵感另开一窗。DeepSeek Harness 的原生侧边聊天插件。">
+    <meta property="og:image" content="https://jensen-yao.github.io/dsh-side-chat/assets/cover.png">
+    <meta property="og:url" content="https://jensen-yao.github.io/dsh-side-chat/">
+    <title>DSH Side Chat | 主线不停，灵感另开一窗</title>
+    <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="site.css">
+    <script src="site.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="DSH Side Chat 首页">
+        <img src="assets/mark.svg" width="30" height="30" alt="">
+        <span>DSH <strong>Side Chat</strong></span>
+      </a>
+      <nav aria-label="主导航">
+        <a href="#features">功能</a>
+        <a href="#privacy">数据与权限</a>
+        <a href="https://github.com/Jensen-Yao/dsh-side-chat">GitHub <span aria-hidden="true">↗</span></a>
+        <a class="language-link" href="https://github.com/Jensen-Yao/dsh-side-chat/blob/main/README.en.md">EN</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <p class="eyebrow"><span class="status-dot"></span> DeepSeek Harness 插件 · v0.1.0</p>
+        <h1>主线不停，<br class="mobile-break">灵感另开一窗。</h1>
+        <p class="hero-copy">在 DSH 原生右侧栏开启独立会话。查资料、理清思路，或从当前对话分支继续，不打断正在推进的主线。</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#install">查看安装方式 <span aria-hidden="true">↓</span></a>
+          <a class="button button-secondary" href="https://github.com/Jensen-Yao/dsh-side-chat">浏览源码 <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="proof-row" aria-label="项目属性">
+          <span><img src="assets/native.svg" alt="" width="16" height="16"> DSH 原生会话界面</span>
+          <span><img src="assets/branch.svg" alt="" width="16" height="16"> 独立上下文</span>
+          <span><img src="assets/lock.svg" alt="" width="16" height="16"> MIT 开源</span>
+        </div>
+      </section>
+
+      <section class="showcase" aria-label="产品界面演示">
+        <div class="showcase-heading">
+          <p class="eyebrow">在熟悉的工作流里，多一个空间</p>
+          <div class="gallery-controls" role="group" aria-label="选择产品截图">
+            <button class="gallery-tab is-active" type="button" data-image="desktop" aria-pressed="true">并排会话</button>
+            <button class="gallery-tab" type="button" data-image="entry" aria-pressed="false">侧栏入口</button>
+            <button class="gallery-tab" type="button" data-image="mobile" aria-pressed="false">窄屏</button>
+          </div>
+        </div>
+        <button class="screenshot-button" type="button" aria-label="放大查看并排会话演示截图" data-lightbox="assets/desktop.png">
+          <img id="hero-screenshot" src="assets/desktop.png" width="1440" height="900" alt="DSH 主会话与独立侧边聊天并排显示，使用固定演示数据" fetchpriority="high">
+          <span class="image-caption">隔离演示环境 · 固定演示对话，不含真实会话</span>
+          <span class="zoom-hint" aria-hidden="true">放大查看</span>
+        </button>
+      </section>
+
+      <section class="feature-band" id="features">
+        <div class="section-intro">
+          <p class="eyebrow">轻量接入，原生协作</p>
+          <h2>让支线有自己的位置。</h2>
+          <p>Side Chat 复用 Harness 的会话能力和界面控件，专注解决一件事：让你探索新问题时，主对话依然保持清晰。</p>
+        </div>
+        <div class="feature-list">
+          <article class="feature-row">
+            <span class="feature-icon"><img src="assets/tabs.svg" alt="" width="22" height="22"></span>
+            <div><h3>独立会话，多标签切换</h3><p>同时保留几条思路。新建侧聊不会替换主会话，也不动主聊天草稿。</p></div>
+            <span class="feature-index">01</span>
+          </article>
+          <article class="feature-row">
+            <span class="feature-icon"><img src="assets/native.svg" alt="" width="22" height="22"></span>
+            <div><h3>沿用 DSH 原生聊天能力</h3><p>使用官方会话组件和 composer。模型、附件、工具、授权和停止操作仍由 Harness 管理。</p></div>
+            <span class="feature-index">02</span>
+          </article>
+          <article class="feature-row">
+            <span class="feature-icon"><img src="assets/history.svg" alt="" width="22" height="22"></span>
+            <div><h3>历史可找，刷新可续</h3><p>搜索、置顶、重命名。刷新页面后恢复标签索引；移除索引不会删除 Harness 会话。</p></div>
+            <span class="feature-index">03</span>
+          </article>
+          <article class="feature-row">
+            <span class="feature-icon"><img src="assets/branch.svg" alt="" width="22" height="22"></span>
+            <div><h3>需要时，从主线分支</h3><p>通过官方 fork 操作显式带入接口支持的上下文，是否分支由你决定。</p></div>
+            <span class="feature-index">04</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="install-band" id="install">
+        <div class="install-copy">
+          <p class="eyebrow">两步接入</p>
+          <h2>把侧聊放进你的 DSH。</h2>
+          <p>需要 DeepSeek Harness <code>0.2.1-rc.2</code> 或更新且兼容公开侧栏与会话 UI 接口的版本。</p>
+          <div class="install-tabs" role="tablist" aria-label="安装环境">
+            <button class="install-tab is-active" id="web-tab" type="button" role="tab" aria-selected="true" aria-controls="web-panel" data-panel="web-panel">Web 版</button>
+            <button class="install-tab" id="desktop-tab" type="button" role="tab" aria-selected="false" aria-controls="desktop-panel" data-panel="desktop-panel">桌面版</button>
+          </div>
+          <div class="install-panel" id="web-panel" role="tabpanel" aria-labelledby="web-tab">
+            <ol><li>在插件市场或插件设置中安装以下 GitHub 版本。</li><li>在当前 profile 启用 <strong>DSH Side Chat</strong>，按提示重新加载。</li></ol>
+            <div class="copy-field"><code>github:Jensen-Yao/dsh-side-chat#v0.1.0</code><button class="copy-button" type="button" aria-label="复制 Web 版安装地址" data-copy="github:Jensen-Yao/dsh-side-chat#v0.1.0"><img src="assets/copy.svg" alt="" width="18" height="18"></button></div>
+          </div>
+          <div class="install-panel" id="desktop-panel" role="tabpanel" aria-labelledby="desktop-tab" hidden>
+            <ol><li>在桌面应用自己的插件市场或插件设置中安装此版本。</li><li>启用插件并按 Harness 提示重新加载桌面 profile。</li></ol>
+            <div class="copy-field"><code>github:Jensen-Yao/dsh-side-chat#v0.1.0</code><button class="copy-button" type="button" aria-label="复制桌面版安装地址" data-copy="github:Jensen-Yao/dsh-side-chat#v0.1.0"><img src="assets/copy.svg" alt="" width="18" height="18"></button></div>
+          </div>
+          <p class="install-note">通过命令行安装依赖后，还需在 profile 的 bundle 列表保留现有项目并加入 <code>dsh-side-chat</code>。桌面版使用自己的插件管理界面。</p>
+        </div>
+        <aside class="compatibility">
+          <h3>验证范围</h3>
+          <dl><div><dt>DSH Web</dt><dd><span class="check-dot"></span>隔离 profile 已验证</dd></div><div><dt>窄屏</dt><dd>390 × 844 已检查</dd></div><div><dt>桌面原生交互</dt><dd>尚未独立验证</dd></div></dl>
+          <a href="https://github.com/Jensen-Yao/dsh-side-chat/blob/main/VERIFICATION.md">查看验证记录 <span aria-hidden="true">↗</span></a>
+        </aside>
+      </section>
+
+      <section class="privacy-band" id="privacy">
+        <div><p class="eyebrow">数据与权限</p><h2>你的会话，仍由 Harness 管理。</h2></div>
+        <div class="privacy-copy"><p>消息和任务记录保存在 DSH 官方会话服务中。浏览器只记录恢复标签所需的会话 ID 和少量标签元数据，历史索引按页面 origin 隔离。</p><p>关闭标签不会取消后台任务，移除历史索引不会删除会话。Side Chat 不携带额外 API 密钥、不直连模型，也不会自动扩大权限。</p><a href="https://github.com/Jensen-Yao/dsh-side-chat#数据与权限">阅读完整说明 <span aria-hidden="true">↗</span></a></div>
+      </section>
+
+      <section class="faq-band">
+        <div class="section-intro"><p class="eyebrow">常见问题</p><h2>开始前，了解这些。</h2></div>
+        <div class="faq-list">
+          <details><summary>侧边聊天会复制主会话内容吗？</summary><p>不会自动复制。需要承接上下文时，使用聊天工具栏中的 fork 操作；复制范围由 DSH 官方 fork 接口决定。</p></details>
+          <details><summary>关闭侧栏或标签会删除会话吗？</summary><p>不会。关闭或收起侧栏不会删除会话。移除 Side Chat 历史项只清除恢复索引，Harness 的会话记录仍保留。</p></details>
+          <details><summary>任务还在生成时可以关闭标签吗？</summary><p>可以，但关闭标签不会停止任务。返回该会话后，使用原生停止按钮结束生成。</p></details>
+          <details><summary>桌面版和 Web 会共享侧聊历史吗？</summary><p>浏览器历史索引按 origin 隔离，因此 Web 与桌面窗口不自动共享标签记录。各自能访问的 Harness 会话仍由 DSH 保存。</p></details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="brand footer-brand" href="#top"><img src="assets/mark.svg" width="26" height="26" alt=""><span>DSH <strong>Side Chat</strong></span></a>
+      <p>独立社区插件 · MIT License · 与 DeepSeek Harness 官方无隶属关系</p>
+      <div><a href="https://github.com/Jensen-Yao/dsh-side-chat">GitHub</a><a href="https://github.com/Jensen-Yao/dsh-side-chat/issues">反馈问题</a><a href="https://github.com/Jensen-Yao/dsh-side-chat/blob/main/README.md">README</a></div>
+    </footer>
+
+    <dialog class="lightbox" aria-label="产品截图预览">
+      <button class="lightbox-close" type="button" aria-label="关闭截图"><img src="assets/close.svg" width="20" height="20" alt=""></button>
+      <img class="lightbox-image" alt="">
+      <p>隔离演示环境 · 固定演示数据</p>
+    </dialog>
+    <div class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
