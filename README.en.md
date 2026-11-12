@@ -24,6 +24,7 @@ Look something up, organize an idea, or branch off from the current task without
 | Native chat UI | Uses DSH's public Conversation Factory and composer, including the controls exposed by the current Harness. |
 | History | Search, pin, rename, and restore side-chat tabs after a refresh. |
 | Branch from the main chat | Explicitly fork the main conversation using context supported by the official fork interface. |
+| Explicit handoff | Stay silent by default; send a concise handoff only after the user explicitly requests it. |
 | Flexible layout | Use DSH's built-in sidebar split, collapse, and fullscreen controls. |
 
 ![DSH Side Chat sidebar entry](docs/assets/entry.png)
@@ -33,10 +34,10 @@ Look something up, organize an idea, or branch off from the current task without
 Requires DeepSeek Harness `0.2.1-rc.2` or newer with compatible public sidebar and conversation UI interfaces. Install this GitHub Release from the DSH plugin marketplace or plugin settings:
 
 ```text
-github:Jensen-Yao/dsh-side-chat#v0.1.0
+github:Jensen-Yao/dsh-side-chat#v0.2.0
 ```
 
-Alternatively, download [`dsh-side-chat-0.1.0.tgz`](https://github.com/Jensen-Yao/dsh-side-chat/releases/download/v0.1.0/dsh-side-chat-0.1.0.tgz) and install it through a plugin manager that accepts local packages. Then enable **DSH Side Chat** in the active profile's plugin settings and reload plugins as prompted by the Harness.
+Alternatively, download [`dsh-side-chat-0.2.0.tgz`](https://github.com/Jensen-Yao/dsh-side-chat/releases/download/v0.2.0/dsh-side-chat-0.2.0.tgz) and install it through a plugin manager that accepts local packages. Then enable **DSH Side Chat** in the active profile's plugin settings and reload plugins as prompted by the Harness.
 
 When managing a profile from the CLI, `dsh plugin --profile <profile> add <package>` installs the dependency; the existing profile bundle list must also retain its current entries and include `dsh-side-chat`. Let the Harness load that bundle afterward. For the desktop app, use its own plugin manager rather than substituting the Web profile.
 
@@ -49,6 +50,10 @@ Open **Side Chat** from the start page in the main workspace's right sidebar. Cr
 On narrow screens, the Harness controls the sidebar layout. Closing or collapsing it does not delete a conversation.
 
 ![DSH Side Chat narrow-screen demo](docs/assets/mobile.png)
+
+## Explicit handoff
+
+Side Chat never reports after ordinary turns. The handoff button sends an explicit instruction to the current side conversation, asking it to summarize the outcome, important changes, blockers, and next action, then call `side_chat_report`. That tool is registered only for that side conversation and queues the summary as an ordinary user message in the parent conversation. The send is recorded in the parent session log.
 
 ## Data and permissions
 

@@ -24,6 +24,7 @@
 | 原生聊天 | 使用 DSH 官方 Conversation Factory 与 composer，沿用当前 Harness 提供的模型、工具、附件和权限控件。 |
 | 历史管理 | 搜索、置顶、重命名和刷新后恢复侧边标签。 |
 | 从主会话分支 | 手动 fork 主会话，把官方 fork 接口支持的上下文带入新会话。 |
+| 显式回传 | 默认保持安静；明确点击按钮或要求告诉主对话时，才发送一条交接摘要。 |
 | 灵活查看 | 使用 DSH 右侧栏自带的拆分、收起和全屏布局。 |
 
 ![DSH Side Chat 的右侧栏入口](docs/assets/entry.png)
@@ -33,10 +34,10 @@
 需要 DeepSeek Harness `0.2.1-rc.2` 或更新版本，并且该版本提供本插件使用的右侧栏与会话 UI 接口。先在 DSH 插件市场或插件设置中安装 GitHub Release：
 
 ```text
-github:Jensen-Yao/dsh-side-chat#v0.1.0
+github:Jensen-Yao/dsh-side-chat#v0.2.0
 ```
 
-也可以下载 [`dsh-side-chat-0.1.0.tgz`](https://github.com/Jensen-Yao/dsh-side-chat/releases/download/v0.1.0/dsh-side-chat-0.1.0.tgz)，在支持本地包的插件管理界面安装。安装后，在当前 profile 的插件设置中启用 **DSH Side Chat**，再按 Harness 提示重新加载插件。
+也可以下载 [`dsh-side-chat-0.2.0.tgz`](https://github.com/Jensen-Yao/dsh-side-chat/releases/download/v0.2.0/dsh-side-chat-0.2.0.tgz)，在支持本地包的插件管理界面安装。安装后，在当前 profile 的插件设置中启用 **DSH Side Chat**，再按 Harness 提示重新加载插件。
 
 如果通过命令行管理 profile，`dsh plugin --profile <profile> add <包>` 只负责安装依赖；还需在该 profile 的 `dsh.profile.bundles` 中保留现有条目并加入 `dsh-side-chat`，再让 Harness 加载该 bundle。桌面版请在桌面应用自己的插件管理界面操作，不要用 Web profile 代替。
 
@@ -49,6 +50,10 @@ github:Jensen-Yao/dsh-side-chat#v0.1.0
 手机屏幕下，DSH 的侧栏布局仍由 Harness 控制；关闭或收起侧栏不会删除会话记录。
 
 ![DSH Side Chat 的窄屏演示](docs/assets/mobile.png)
+
+## 显式回传
+
+默认不回传。按钮会把一条明确指令发给当前侧聊，要求它总结已完成的结论、关键变更、阻塞点和下一步，并调用只注册给该侧聊的 `side_chat_report` 工具。工具再把摘要作为一条普通用户消息队列到打开它的父会话；发送动作会被记录在父会话日志中。浏览器或模型不会在每轮侧聊后自动发送摘要。
 
 ## 数据与权限
 

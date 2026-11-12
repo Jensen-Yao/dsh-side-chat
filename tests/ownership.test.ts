@@ -40,4 +40,22 @@ describe('independent side session creation', () => {
     expect(fork).toHaveBeenCalledWith({ sessionId: 'main' });
     expect(sessions.create).toHaveBeenCalledTimes(1);
   });
-});
+  it('registers a side chat with the host before handoff becomes available', async () => {
+    const fetch = vi.fn(async () => ({ ok: true }) as Response);
+    vi.stubGlobal('fetch', fetch);
+    const { creator } = fixture(async () => id('chat'));
+    await creator.link(id('main'), id('chat'));
+    expect(fetch).toHaveBeenCalledWith('/api/side-chat/link', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ parentSessionId: id('main'), sideSessionId: id('chat') }),
+    });
+    vi.unstubAllGlobals();
+  });
+  it('reports the host error when handoff registration fails', async () => {
+    const fetch = vi.fn(async () => ({ ok: false, status: 409, statusText: 'Conflict', json: async () => ({ error: 'session/agent-busy' }) }) as Response);
+    vi.stubGlobal('fetch', fetch);
+    const { creator } = fixture(async () => id('chat'));
+    await expect(creator.link(id('main'), id('chat'))).rejects.toThrow('session/agent-busy');
+    vi.unstubAllGlobals();
+  });});

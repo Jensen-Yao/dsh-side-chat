@@ -8,7 +8,7 @@ import type { ConversationViewsProps } from '@deepseek-ai/dsh-client-ui-conversa
 import type {} from '@deepseek-ai/dsh-client-ui-session/client';
 import type {} from '@deepseek-ai/dsh-client-ui-renderer/client';
 import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
-import { MessageCirclePlus, Plus, History, GitFork, Pin, PinOff, X, Pencil, Check, Search, RotateCw, LoaderCircle } from 'lucide-react';
+import { MessageCirclePlus, Plus, History, GitFork, Pin, PinOff, X, Pencil, Check, Search, RotateCw, LoaderCircle, SendHorizontal } from 'lucide-react';
 import { SideChatHistory } from './history.ts';
 import { SideChatCreator } from './ownership.ts';
 import css from './styles.css';
@@ -126,6 +126,11 @@ function SideChatBody(props: TabProps) {
     return () => { disposed = true; };
   }, [creator, parentId, tab.contentId, id, attempt]);
 
+  useEffect(() => {
+    if (!id || readyId !== id) return;
+    creator.link(parentId, id).catch((cause: unknown) => setError(String(cause)));
+  }, [creator, parentId, id, readyId]);
+
   async function create(fork = false) {
     if (busy) return;
     const ticket = ++operation.current;
@@ -165,6 +170,31 @@ function SideChatBody(props: TabProps) {
     } finally { if (alive.current) setBusy(false); }
   }
 
+  async function requestHandoff() {
+    if (!id || readyId !== id || busy || current?.running) return;
+    const ticket = ++operation.current;
+    const text = '请把这条侧边聊天中已经完成的工作整理成给主对话的交接摘要，并调用 side_chat_report 工具发送。只发送结论、关键变更、阻塞点和建议下一步；没有明确要求时不要调用这个工具。';
+    setBusy(true);
+    setError('');
+    try {
+      await sessions.using(id, { source: 'sideChat' }, async (reference) => {
+        await reference.ready;
+        const session = reference.binding.session;
+        const submission = session.beginSubmission({ mode: 'queue', text, attachments: [] });
+        try {
+          const accepted = await session.prompt([{ type: 'text', text }], 'queue', undefined, submission.requestId);
+          if (!accepted.ok) throw new Error(accepted.error.message);
+        } catch (cause) {
+          submission.abandon();
+          throw cause;
+        }
+      });
+    } catch (cause) {
+      if (alive.current && ticket === operation.current) setError(String(cause));
+    } finally {
+      if (alive.current && ticket === operation.current) setBusy(false);
+    }
+  }
   const entries = [...navigation.entries].filter((entry) => {
     const summary = catalog.byId[entry.id];
     return !query || `${summary?.displayTitle ?? ''} ${summary?.cwd ?? ''}`.toLocaleLowerCase().includes(query.toLocaleLowerCase());
@@ -179,6 +209,7 @@ function SideChatBody(props: TabProps) {
       <div className="dsc-tools">
         <IconButton label="重命名聊天" disabled={readyId !== id || !id || busy} onClick={() => { setTitle(current?.title ?? ''); setRename(!rename); }}><Pencil size={15} /></IconButton>
         <IconButton label="从主聊天分支（复制已完成的上下文）" disabled={busy} onClick={() => void create(true)}><GitFork size={16} /></IconButton>
+        <IconButton label="让侧边聊天向主对话回传交接摘要" disabled={busy || readyId !== id || !id || current?.running} onClick={() => void requestHandoff()}><SendHorizontal size={16} /></IconButton>
         <IconButton label="会话历史" active={historyOpen} onClick={() => setHistoryOpen(!historyOpen)}><History size={17} /></IconButton>
         <IconButton label="新建侧边聊天" disabled={busy} onClick={() => void create()}><Plus size={19} /></IconButton>
       </div>

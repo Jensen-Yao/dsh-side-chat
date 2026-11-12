@@ -2,7 +2,10 @@ import { build } from 'esbuild';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 
 await mkdir('lib', { recursive: true });
-await build({ entryPoints: ['src/index.ts'], outfile: 'lib/index.js', bundle: true, format: 'esm', platform: 'node', target: 'node22' });
+await build({
+  entryPoints: ['src/index.ts'], outfile: 'lib/index.js', bundle: true, format: 'esm', platform: 'node',
+  target: 'node22', external: ['@deepseek-ai/*'],
+});
 const result = await build({ entryPoints: ['src/client.tsx'], bundle: true, format: 'cjs', platform: 'browser', target: 'es2022',
   jsx: 'automatic', external: ['react', 'react/jsx-runtime', 'react-dom'], loader: { '.css': 'text' }, write: false, metafile: true });
 const imports = Object.values(result.metafile.outputs).flatMap((output) => output.imports);

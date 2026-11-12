@@ -24,4 +24,21 @@ export class SideChatCreator {
     this.history.select(parentId, contentId, id);
     return id;
   }
+
+  /** Register the browser-visible side session with the Host tool that owns explicit handoff. */
+  async link(parentId: SessionId, sideSessionId: SessionId): Promise<void> {
+    const response = await fetch('/api/side-chat/link', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ parentSessionId: parentId, sideSessionId }),
+    });
+    if (!response.ok) {
+      let detail = `${response.status} ${response.statusText}`;
+      try {
+        const body: unknown = await response.json();
+        if (body && typeof body === 'object' && 'error' in body && typeof body.error === 'string') detail = body.error;
+      } catch { /* The HTTP status remains the actionable detail. */ }
+      throw new Error(`侧边聊天暂不能回传主对话：${detail}`);
+    }
+  }
 }
